@@ -1,5 +1,6 @@
 
 
+
 #define delayTime 20
 //used to check recieving variable
 #include <SoftwareSerial.h>
@@ -23,6 +24,21 @@ byte clrintens;
 //clrintens = color intesity
 char colorinit;
 //colorinit = initializes color reception
+int time1;
+/*gets time in seconds/miliseconds so that if start time =/ from 0,
+calculates color to start point ex if 09:00a.m. start color =/ from
+24:00 so calculates time diference and then calculates color changing to set start point*/
+int startrgb;
+//variable to store start color, to make calcules(given by external device)
+int intervall;
+//intervall of addition/subtraction
+int positivity;
+//sets changing value (if it's -1 or +1)
+int storergb;
+//var used to store RGB vallue changed in calcules;
+int endcolor;
+//receives end color; tom make if =/ change
+
 
 unsigned long time;
 //timer
@@ -111,7 +127,7 @@ void loop() {
 BluetoothData=Genotronex.read();
    }
    //sets first rgb variable to receive "u"
-   //colorinit(or BluetoothData3) not set to nothing
+   //colorinit §not set to nothing
    if(colorinit=='u'){
     modo_ldr=false;
   color=Genotronex.read();
@@ -304,6 +320,42 @@ command_off=false;
 
 }if (modo_ldr) {
   app_ldr();
+
+}
+if (BluetoothData=="c")//create variable to ciclo circadiano
+{
+  //insert ciclo circadiano code
+  time1 = Genotronex.read();
+  Genotronex.println(time1);
+  startrgb = Genotronex.read();
+  Genotronex.println(startrgb);//try hexadecimal conversion to receive only one variable
+  intervall = Genotronex.read();
+  Genotronex.println(intervall);
+  positivity = Genotronex.read();
+  Genotronex.println(positivity);
+  endcolor = Genotronex.read();
+  Genotronex.println(endcolor);
+  //only do this on startup
+  //receive and store all variables
+analogWrite(red, HIGH);//add variable to change color, need to split variable
+analogWrite(green,HIGH );//
+analogWrite(blue, HIGH);
+
+if(storergb < endcolor || storergb > endcolor)//check how to make different preposition in c++
+{
+  if (positivity == "+")
+  {
+    //add +1 to color
+    //analogWrite
+  }
+  if (positivity == "-")
+  {
+    //subtract -1 to color
+    //analogWrite
+  }
+
+}
+  delay(intervall);//sets delay to received time variables
 
 }
 //read after 100 miliseconds
