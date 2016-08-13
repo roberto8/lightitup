@@ -1,4 +1,6 @@
-
+                                // *** https://github.com/roberto8/lightitup ***
+                                //  *** https://twitter.com/LightUpMAKERS ***
+                                //           ***Smart Bulb Project***
 
 
 #define delayTime 20
